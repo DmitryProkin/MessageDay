@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.w3.org/1999/xhtml">
+<!--      layout:decorate="~{laouts/authenticated}"-->
+
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Edit user</title>
+    <link th:href="@{/css/bootstrap.min.css}" rel="stylesheet"/>
+    <link th:href="@{/css/font-awesome.min.css}" rel="stylesheet"/>
+    <link th:href="@{/css/animations.css}" rel="stylesheet"/>
+    <link th:href="@{/css/select.css}" rel="stylesheet"/>
+</head>
+
+<body>
+<div layout:fragment="content">
+    <h1>Edit user</h1>
+
+    <div class="container">
+        <form action="#" th:action="@{/users/form}" th:object="${user}"
+              method="post">
+            <input type="hidden" th:field="*{id}"/>
+
+            <div class="form-group row">
+                <label for="name" class="col-sm-2 col-form-label">Имя</label>
+                <div class="col-sm-10">
+                    <input type="text"
+                           th:field="*{firstname}"
+                           name="firstname" class="form-control" id="name" placeholder="Name"/>
+                    <div class="invalid-feedback" th:errors="*{firstname}">
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label for="lastname" class="col-sm-2 col-form-label">Фамилия</label>
+                <div class="col-sm-10">
+                    <input type="text"
+                           th:field="*{lastname}"
+                           name="lastname" class="form-control" id="lastname" placeholder="lastname"/>
+                    <!--                    <i class="form-control-feedback is-invalid fa fa-times"></i>-->
+                    <div class="invalid-feedback" th:errors="*{lastname}">
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label for="login" class="col-sm-2 col-form-label">Логин</label>
+                <div class="col-sm-10">
+                    <input type="text"
+                           th:field="*{login}"
+                           name="login" class="form-control" id="login" placeholder="login"/>
+                    <!--                    <i class="form-control-feedback is-invalid fa fa-times"></i>-->
+                    <div class="invalid-feedback" th:errors="*{login}">
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label for="password" class="col-sm-2 col-form-label">Новый пароль</label>
+                <div class="col-sm-10">
+                    <input type="password"
+                           th:field="*{password}"
+                           name="password" class="form-control" id="password" placeholder="password"/>
+                    <!--                    <i class="form-control-feedback is-invalid fa fa-times"></i>-->
+                    <div class="invalid-feedback" th:errors="*{password}">
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label for="role" class="col-sm-2 col-form-label">Выбирите роль</label>
+                <div class="col-sm-10">
+                    <select id="role" class="form-control" th:field="*{roleId}">
+                        <option th:value="1" th:selected="${roleId == 1}">Администратор</option>
+                        <option th:value="2" th:selected="${roleId == 2}">Пользователь</option>
+<!--                        <option th:value="1" th:selected="${roleId == 1}">лорд командующий</option>-->
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <div class="col-sm-10">
+                    <button type="submit" class="btn btn-primary">
+                        Сохранить
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+</body>
+</html>

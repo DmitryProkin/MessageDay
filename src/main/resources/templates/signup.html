@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.w3.org/1999/xhtml"
+      layout:decorate="~{layouts/notAuthenticated}">
+<head>
+    <title>Sign up</title>
+</head>
+<body>
+<div layout:fragment="content">
+    <div class="col-sm-9 col-md-7 col-lg-5 mx-auto">
+        <div class="card card-signin my-5 fadeInDown">
+            <div class="card-body">
+                <h5 class="card-title text-center">Register New User</h5>
+                <form class="form-signin was-validated" th:action="@{/signup}" method="post" th:object="${user}">
+                    <!--First Name-->
+
+                    <div class="form-label-group">
+                        <input name="firstName" type="text" id="firstName" class="form-control"
+                               placeholder="First Name" required autofocus th:field="*{firstname}"
+                               pattern="[A-ZА-Я][a-zа-я]+">
+                        <label for="firstName">First Name</label>
+                        <small class="form-text text-muted text-center">Use only literals. First symbol should be UPPER
+                            case.
+                        </small>
+                    </div>
+
+                    <!--Last Name-->
+
+                    <div class="form-label-group">
+                        <input name="lastName" type="text" id="lastName" class="form-control"
+                               placeholder="Last Name" required th:field="*{lastname}"
+                               pattern="[A-ZА-Я][a-zа-я]+">
+                        <label for="lastName">Last Name</label>
+                        <small class="form-text text-muted text-center">Use only literals. First symbol should be UPPER
+                            case.
+                        </small>
+                    </div>
+
+                    <!--Login-->
+
+                    <div class="form-label-group">
+                        <input name="login" type="text" id="login" class="form-control "
+                               placeholder="Login" required
+                               pattern="[a-z][a-z0-9]+"
+                               th:field="*{login}"
+                               th:classappend="${#fields.hasErrors('login')}?'invalid'"
+                        >
+                        <label for="login">Login</label>
+                        <small class="form-text text-muted text-center">Use only a-z0-9 literals. All symbol should be
+                            LOWER case.
+                        </small>
+                        <div class="invalid-feedback">This login already exists!</div>
+                    </div>
+
+                    <!--                    <div class="form-control-feedback">-->
+                    <!--                         <span class="text-danger align-middle" th:if="${#fields.hasErrors('login')}">-->
+                    <!--                               *{th:errors="*{login}"}-->
+                    <!--                         </span>-->
+                    <!--                    </div>-->
+
+                    <div class="form-label-group">
+                        <input name="password" type="password" id="password" class="form-control"
+                               placeholder="Password" required>
+                        <label for="password">Password</label>
+                    </div>
+
+                    <div class="form-control-feedback">
+                         <span class="text-danger align-middle" th:if="${#fields.hasErrors('password')}"
+                               th:errors="*{password}">
+                         </span>
+                    </div>
+                    <button class="btn btn-lg btn-primary btn-block text-uppercase" type="submit">Register</button>
+                    <hr class="hr-text" data-content="OR">
+                    <a class="btn btn-lg btn-red btn-block text-uppercase" th:href="@{/login}">Login</a>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

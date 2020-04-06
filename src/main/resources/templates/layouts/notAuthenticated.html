@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html xmlns:layout="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title layout:title-pattern="$CONTENT_TITLE"></title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+
+    <!--Style-->
+    <link th:href="@{/css/bootstrap.min.css}" rel="stylesheet"/>
+    <link th:href="@{/css/font-awesome.min.css}" rel="stylesheet"/>
+    <link th:href="@{/css/animations.css}" rel="stylesheet"/>
+
+    <!--JS-->
+    <script th:src="@{/js/bootstrap.min.js}"></script>
+    <script th:src="@{/js/jquery-3.4.1.min.js}"></script>
+
+    <!--Style Custom-->
+    <link th:href="@{/css/loginForm.css}" rel="stylesheet"/>
+
+    <!--JS Custom-->
+    <script th:src="@{/js/signupValidation.js}"></script>
+</head>
+<body>
+<div class="container">
+    <div class="row">
+        <div class="col-md-3"></div>
+        <div class="col-md-6">
+            <div class="alert alert-success" role="alert" th:if="${msg}" th:utext="${msg}">
+            </div>
+        </div>
+    </div>
+    <div class="row" layout:fragment="content">
+        <!--   extend     -->
+    </div>
+</div>
+
+
+</body>
+</html>

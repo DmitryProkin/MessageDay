@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>The page you were looking for doesn't exist (404)</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+
+
+    <!--JS-->
+    <script th:src="@{/static/js/jquery-3.4.1.min.js}"></script>
+
+
+    <!--Style Custom-->
+    <link th:href="@{/static/css/404.css}" rel="stylesheet"/>
+</head>
+
+<body>
+
+<div class="overlay"></div>
+<div class="terminal">
+    <h1>Error <span class="errorcode">404</span></h1>
+    <p class="output">The page you are looking for might have been removed, had its name changed or is temporarily
+        unavailable</p>
+    <p class="output">Please try <a id="goToUp" href="">this link</a> or <a href="/">/</a></p>
+    <p class="output">Good luck</p>
+</div>
+
+<script>
+    var a = document.getElementById("goToUp");
+    var arrlink = window.location.href.split('/');
+    arrlink.splice(0,3);
+    arrlink.pop();
+    var nurl = "/" + arrlink.join('/') + "/";
+    a.href = nurl;
+    a.innerText = nurl;
+</script>
+</body>
+</html>

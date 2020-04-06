@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.w3.org/1999/xhtml"
+      layout:decorate="~{layouts/authenticated}">
+<head>
+    <title>Cообщения</title>
+</head>
+<body>
+<div class="" layout:fragment="content">
+    <div th:if="${roleId == 1}">
+        <div class="row">
+            <div class="col-6">
+                <h1>
+                    Список сообщений
+                </h1>
+            </div>
+            <div class="col-6">
+                <a class="btn btn-success my-2 my-lg-0" th:href="@{/message/new}">Создать</a>
+                <a class="btn btn-outline-success" th:href="@{/message/newRundom}">Использовать случайное</a>
+                <a class="btn btn-outline-success" th:href="@{/message/selectExist}">Выбрать из существующего</a>
+
+            </div>
+        </div>
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th scope="col">№</th>
+                <th scope="col">Текст</th>
+                <th scope="col">Дата</th>
+            </tr>
+            </thead>
+
+            <tbody>
+            <th:block th:each="message : ${messageList}">
+                <td th:text="${message.getId()}"></td>
+                <td th:text="${message.getText()}"></td>
+                <td th:text="${message.getDateCreate()}"></td>
+                <td th:with="baseUrl=('/message/'+${message.id})">
+                        <a class="btn btn-outline-primary" th:href="@{${baseUrl}+'/edit'}">Редактировать</a>
+                        <a class="btn btn-outline-danger" th:href="@{${baseUrl}+'/delete'}">Удалить</a>
+                    </td>
+                </tr>
+            </th:block>
+            </tbody>
+        </table>
+
+    </div>
+
+</div>
+
+</div>
+</body>
+</html>

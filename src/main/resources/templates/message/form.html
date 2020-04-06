@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.w3.org/1999/xhtml"
+      layout:decorate="~{layouts/authenticated}">
+<head>
+    <title>Edit order</title>
+</head>
+<body>
+<div layout:fragment="content">
+    <form class="form-signin was-validated" th:action="@{/message/}" method="post"   modelAttribute="messageEntity" th:object="${message}">
+
+        <div class="row">
+            <input type="hidden" th:field="*{id}" name="id">
+
+            <div class="col-sm-2 col-12" >
+                <label for="text" th:if="${flag==1}">Текст сообщения:</label>
+            </div>
+            <div class="col-sm-10 col-12 text-left" >
+                <div th:if="${flag==1}">
+
+                    <select  class="select-two js-example-basic-single js-states form-control" type="text" id="text"
+                                    name="text" th:field="*{text}">
+                        <th:block th:each="mes : ${messageList}">
+                            <option th:value="${mes.getText()}"  th:text="${mes.getText()}"></option>
+                        </th:block>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+
+            <div class="col-sm-2 col-12">
+
+                <label for="text" th:if="${flag==0}">Текст сообщения:</label>
+            </div>
+
+            <div class="col-sm-10 col-12 text-left" >
+                <input th:if="${flag==0}" name="text" type="text" id="text" class="form-control"
+                       placeholder="Введите текст" required autofocus th:field="*{text}">
+            </div>
+
+            <div class="col-sm-2 col-12">
+                <label for="dateCreate">Сообщения для даты:</label>
+            </div>
+            <div class="col-sm-10 col-12 text-left">
+                <input name="dateCreate" type="date" id="dateCreate" class="form-control"
+                       placeholder="Выберите дату" required autofocus th:field="*{dateCreate}">
+            </div>
+
+            <div class="actions col-12">
+                <button class="btn btn-success text-uppercase" type="submit">Сохранить</button>
+                <a class="btn btn-secondary" th:href="@{/message/}">Вернуться</a>
+                <!--                <a class="btn btn-secondary"  onclick="disp(document.getElementById('checkbox'))" >Добавить лист с задачами</a>-->
+            </div>
+
+        </div>
+    </form>
+</div>
+</body>
+</html>

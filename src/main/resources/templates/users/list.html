@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.w3.org/1999/xhtml"
+      layout:decorate="~{layouts/authenticated}">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>List users</title>
+</head>
+<body>
+<div layout:fragment="content">
+    <div class="col">
+        <div class="row">
+            <h1>Список активных пользователей</h1>
+        </div>
+
+        <div class="row">
+            <form th:action="@{/users}" class="form-inline" method="get">
+                <div class="form-group mr-sm-3 mb-2">
+                    <input type="text" name="value" class="form-control" placeholder="ФИО"
+                           th:if="${key} == null"/>
+                    <input type="text" name="value" class="form-control" placeholder="ФИО"
+                           th:if="${key} != null" th:value="${key}"/>
+                </div>
+                <button type="submit" class="btn btn-primary mr-sm-3 mb-2">Поиск</button>
+
+            </form>
+            <a th:if="${roleId} == 1" th:href="@{/users/form}" class="btn btn-success mb-2">Добавить нового пользователя</a>
+        </div>
+
+        <div class="row">
+            <table class="table table-striped">
+                <tr>
+                    <th><label>Id</label></th>
+                    <th><label>Имя</label></th>
+                    <th><label>Фамилия</label></th>
+                    <th><label>Логин</label></th>
+                    <th><label>Роль</label></th>
+                    <th th:if="${roleId} == 1"><label>Action</label></th>
+                </tr>
+                <tr th:each="p : ${userPage}">
+                    <td th:text="${p.id}"></td>
+                    <td th:text="${p.firstname}"></td>
+                    <td th:text="${p.lastname}"></td>
+                    <td th:text="${p.login}"></td>
+                    <td th:text="${p.role.role}"></td>
+                    <td th:if="${roleId} == 1">
+                        <a href="#" class="btn btn-warning" title="Edit user" th:href="@{/users/form(id=${p.id})}">
+                            <i class="glyphicon glyphicon-edit"></i> Изменить
+                        </a>
+                        <a href="#" class="btn btn-danger" title="Delete user"
+                           th:if="${p.getActive()}==1"
+                           th:href="@{/users/delete(id=${p.id})}">
+                            <i class="glyphicon glyphicon-trash"></i> Деактивировать
+                        </a>
+                        <a href="#" class="btn btn-success" title="Delete user"
+                           th:if="${p.getActive()}==0"
+                           th:href="@{/users/active(id=${p.id})}">
+                            <i class="glyphicon glyphicon-trash"></i> Активировать
+                        </a>
+                    </td>
+                </tr>
+            </table>
+            <div th:if="${userPage.totalPages > 0}" class="pagination"
+                 th:each="pageNumber : ${pageNumbers}">
+                <a th:href="@{/users(size=${userPage.size}, page=${pageNumber})}"
+                   th:text="${pageNumber}"
+                   th:class="${pageNumber==userPage.number + 1} ? active"></a>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,14 @@
+.bg-gray {
+    margin-bottom: 2em;
+    border-radius: 5px;
+    border: #333333 solid 1px;
+}
+
+.row > div {
+    margin-bottom: 5px;
+    margin-top: 5px;
+}
+
+/*.select-two{*/
+/*    width: 100% !important;*/
+/*}*/
