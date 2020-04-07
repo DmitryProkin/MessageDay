@@ -13,11 +13,12 @@
 <body>
 `<div class="nemes" layout:fragment="content">
     <h2>Привет <span th:utext="${userName}"></span>, ваша роль <span th:utext="${role}"></span></h2>
-    <h2>Дата:  <span th:text="${messageList.get(counter).getDateCreate()}"></span></h2>
-    <h2>Сообщение дня : <span th:text="${messageList.get(counter).getText()}"></span></h2>
-    <a class="btn btn-success my-2 my-lg-0" th:href="@{/home/home/back}">Предыдущее</a>
-    <a class="btn btn-success my-2 my-lg-0" th:href="@{/home/home/next}">Следующее</a>
-
+    <div th:if="${size>0}">
+        <h2>Дата:  <span th:text="${messageList.get(counter).getDateCreate()}"></span></h2>
+        <h2 >Сообщение дня : <span  th:text="${messageList.get(counter).getText()}"></span></h2>
+        <a class="btn btn-success my-2 my-lg-0" th:href="@{/home/home/back}">Предыдущее</a>
+        <a class="btn btn-success my-2 my-lg-0" th:href="@{/home/home/next}">Следующее</a>
+    </div>
     <h2>Cтатистика</h2>
     <h3>Всего <span th:text="${size}"></span> cообщения</h3>
 

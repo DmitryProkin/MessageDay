@@ -68,15 +68,16 @@ public class IndexController {
 
         init();
 
-        if(counter ==size){
+        if(counter ==size && counter!=0){
             counter--;
         }
 
         model.addObject("messageList",messagesList);
         if(counter>=0 && size>0){
             model.addObject("counter",counter);
-            model.addObject("size",size);
+
         }
+        model.addObject("size",size);
         model.addObject("userName", user.getFIO());
         model.addObject("role", user.getRole().getRole());
         model.addObject("roleId", roleId);
