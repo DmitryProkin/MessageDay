@@ -33,12 +33,18 @@ public class AuthController {
     public ModelAndView login() {
         ModelAndView model = new ModelAndView();
 
-        Optional<UserEntity> optUser = userRepository.findByActiveAndRoleId(1, 1);
+        UserEntity userEntity = new UserEntity();
+        userEntity.setLogin("admin");
+        userEntity.setPassword("admin");
+        userEntity.setFirstname("Иван");
+        userEntity.setLastname("Иванов");
+        userEntity.setActive(1);
+        userEntity.setRoleId(1);
+        UserEntity userExists = userService.findUserByLogin(userEntity.getLogin());
 
-
-        boolean isFirst = !optUser.isPresent();
-
-        model.addObject("first", isFirst);
+        if(userExists ==null) {
+            userService.saveSingUpUser(userEntity);
+        }
 
         model.setViewName("login");
         return model;

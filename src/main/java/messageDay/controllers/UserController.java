@@ -85,7 +85,8 @@ public class UserController {
 
 	@PostMapping("/form")
 	public String addNewUser(@ModelAttribute @Valid UserEntity user, BindingResult errors, SessionStatus status) {
-		Optional<UserEntity> r = userService.findByActiveAndRoleId(1, 1);
+//		Optional<UserEntity> r = userService.findByActiveAndRoleId(1, 1);
+//		userService
 
 
 		if (errors.hasErrors() && user.getRoleId() == 1 ) {
