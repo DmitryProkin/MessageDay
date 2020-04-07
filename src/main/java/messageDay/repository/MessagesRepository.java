@@ -8,6 +8,7 @@ import java.util.List;
 
 public interface MessagesRepository extends CrudRepository<MessagesEntity,Integer> {
     MessagesEntity findAllByDateCreateEquals(Date date);
+    List<MessagesEntity> findAllByDateCreateIsLessThanEqual(Date date);
     List<MessagesEntity> findAll();
 
 

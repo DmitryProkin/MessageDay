@@ -17,6 +17,7 @@ import java.sql.Date;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 import java.util.Optional;
 
@@ -26,16 +27,31 @@ public class MessageController {
     private final UserService userService;
     private final MessagesRepository messagesRepository;
     private static final SimpleDateFormat sdf = new SimpleDateFormat("yyyy.MM.dd");
+//    private final IndexController indexController;
+    public static Integer counter ;
+    public static Integer size ;
+    public List<MessagesEntity> messagesList;
 
     public MessageController(UserService userService, MessagesRepository messagesRepository){
         this.userService = userService;
         this.messagesRepository = messagesRepository;
+//        this.indexController = indexController;
 
     }
+
+    public List<MessagesEntity> init(){
+        java.sql.Date currentDate = new java.sql.Date(Calendar.getInstance().getTime().getTime());
+        messagesList = messagesRepository.findAllByDateCreateIsLessThanEqual(currentDate);
+        counter = messagesList.size();
+        counter--;
+        size = messagesList.size();
+        return messagesList;
+    }
+
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public ModelAndView index() {
         Integer roleId = userService.getAuthenticationUser().getRoleId();
-
+//        indexController.init();
         ModelAndView model = new ModelAndView();
         if (roleId == 1) {
             Iterable<MessagesEntity> listMessages = messagesRepository.findAll();
@@ -155,6 +171,7 @@ public class MessageController {
 
     @RequestMapping(value = "/{id}/edit", method = RequestMethod.GET)
     public ModelAndView update(@PathVariable int id) {
+        int flag =0;
         ModelAndView model = new ModelAndView();
         Integer roleId = userService.getAuthenticationUser().getRoleId();
 
@@ -164,7 +181,9 @@ public class MessageController {
 
             model.addObject("message", messagesEntity);
             model.addObject("roleId", roleId);
+            model.addObject("flag",flag);
             model.setViewName("message/form");
+
         } else {
             model.setViewName("redirect:/message/");
         }

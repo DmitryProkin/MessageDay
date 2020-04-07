@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.Calendar;
+import java.util.List;
 
 
 @Controller
@@ -20,7 +21,9 @@ public class IndexController {
     private final UserService userService;
     private final MessagesRepository messagesRepository;
     private final MessageController messageController;
-
+    public static Integer counter ;
+    public static Integer size ;
+    public List<MessagesEntity> messagesList;
 
     public IndexController(UserService userService, MessagesRepository messagesRepository, MessageController messageController) {
 
@@ -28,6 +31,24 @@ public class IndexController {
         this.messagesRepository = messagesRepository;
         this.messageController = messageController;
 
+//        java.sql.Date currentDate = new java.sql.Date(Calendar.getInstance().getTime().getTime());
+//        messagesList = messagesRepository.findAllByDateCreateIsLessThanEqual(currentDate);
+//        counter = messagesList.size();
+//        counter--;
+//        size = messagesList.size();
+        init();
+//        messagesList = this.messageController.init();
+//        size =messagesList.size();
+//        counter = messagesList.size();
+//        counter--;
+
+    }
+    public void init(){
+        java.sql.Date currentDate = new java.sql.Date(Calendar.getInstance().getTime().getTime());
+        messagesList = messagesRepository.findAllByDateCreateIsLessThanEqual(currentDate);
+        counter = messagesList.size();
+//        counter--;
+        size = messagesList.size();
     }
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
@@ -53,10 +74,15 @@ public class IndexController {
         UserEntity user = userService.findUserByLogin(auth.getName());
         Integer roleId = userService.getAuthenticationUser().getRoleId();
 
+        init();
 
-        java.sql.Date currentDate = new java.sql.Date(Calendar.getInstance().getTime().getTime());
-        MessagesEntity messagesEntity = messagesRepository.findAllByDateCreateEquals(currentDate);
-        model.addObject("message",messagesEntity);
+        if(counter ==size){
+            counter--;
+        }
+
+        model.addObject("messageList",messagesList);
+        model.addObject("counter",counter);
+        model.addObject("size",size);
         model.addObject("userName", user.getFIO());
         model.addObject("role", user.getRole().getRole());
         model.addObject("roleId", roleId);
@@ -71,7 +97,72 @@ public class IndexController {
         return model;
     }
 
-    @RequestMapping(value = "/error", method = RequestMethod.GET)
+    @RequestMapping(value = "/home/home/back", method = RequestMethod.GET)
+    public ModelAndView decriment(){
+        if(counter>0) {
+            counter--;
+        }
+
+
+        ModelAndView model = new ModelAndView();
+        model = constructModel();
+
+//        model = home();
+//        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+//        UserEntity user = userService.findUserByLogin(auth.getName());
+//        Integer roleId = userService.getAuthenticationUser().getRoleId();
+//        model.addObject("messageList",messagesList);
+//        model.addObject("size",size);
+//        model.addObject("counter",counter-1);
+//        model.addObject("userName", user.getFIO());
+//        model.addObject("role", user.getRole().getRole());
+//        model.addObject("roleId", roleId);
+//        model.setViewName("home/home");
+
+        return model;
+
+    }
+
+    @RequestMapping(value = "/home/home/next", method = RequestMethod.GET)
+    public ModelAndView increment(){
+        if(counter<size-1) {
+            counter++;
+        }
+
+        ModelAndView model = new ModelAndView();
+        model = constructModel();
+
+//        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+//        UserEntity user = userService.findUserByLogin(auth.getName());
+//        Integer roleId = userService.getAuthenticationUser().getRoleId();
+//        model.addObject("messageList",messagesList);
+//        model.addObject("size",size);
+//        model.addObject("counter",counter-1);
+//        model.addObject("userName", user.getFIO());
+//        model.addObject("role", user.getRole().getRole());
+//        model.addObject("roleId", roleId);
+//        model.setViewName("home/home");
+
+        return model;
+
+    }
+    public ModelAndView constructModel(){
+        ModelAndView model = new ModelAndView();
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        UserEntity user = userService.findUserByLogin(auth.getName());
+        Integer roleId = userService.getAuthenticationUser().getRoleId();
+        model.addObject("messageList",messagesList);
+        model.addObject("size",size);
+        model.addObject("counter",counter);
+        model.addObject("userName", user.getFIO());
+        model.addObject("role", user.getRole().getRole());
+        model.addObject("roleId", roleId);
+        model.setViewName("home/home");
+        return model;
+    }
+
+
+        @RequestMapping(value = "/error", method = RequestMethod.GET)
     public ModelAndView error() {
         ModelAndView model = new ModelAndView();
         model.setViewName("errors/404");
