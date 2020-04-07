@@ -27,42 +27,23 @@ public class MessageController {
     private final UserService userService;
     private final MessagesRepository messagesRepository;
     private static final SimpleDateFormat sdf = new SimpleDateFormat("yyyy.MM.dd");
-//    private final IndexController indexController;
-    public static Integer counter ;
-    public static Integer size ;
-    public List<MessagesEntity> messagesList;
+
+
 
     public MessageController(UserService userService, MessagesRepository messagesRepository){
         this.userService = userService;
         this.messagesRepository = messagesRepository;
-//        this.indexController = indexController;
 
     }
 
-    public List<MessagesEntity> init(){
-        java.sql.Date currentDate = new java.sql.Date(Calendar.getInstance().getTime().getTime());
-        messagesList = messagesRepository.findAllByDateCreateIsLessThanEqual(currentDate);
-        counter = messagesList.size();
-        counter--;
-        size = messagesList.size();
-        return messagesList;
-    }
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public ModelAndView index() {
         Integer roleId = userService.getAuthenticationUser().getRoleId();
-//        indexController.init();
+
         ModelAndView model = new ModelAndView();
         if (roleId == 1) {
             Iterable<MessagesEntity> listMessages = messagesRepository.findAll();
-            model.addObject("messageList", listMessages);
-            model.addObject("roleId", roleId);
-            model.setViewName("message/index");
-        } else if (roleId == 2) {
-            Timestamp timestamp = new Timestamp(System.currentTimeMillis());
-//            MessagesEntity messagesEntity = messagesRepository.findAllByDateCreateEquals(timestamp);
-            List<MessagesEntity> listMessages = new ArrayList<>();
-//            listMessages.add(messagesEntity);
             model.addObject("messageList", listMessages);
             model.addObject("roleId", roleId);
             model.setViewName("message/index");
@@ -97,19 +78,24 @@ public class MessageController {
         ModelAndView model = new ModelAndView();
         List<MessagesEntity> messageList = messagesRepository.findAll();
         int size = messageList.size();
-        int rundomIndex = (int) (Math.random() * size);
-        messagesEntity.setText(messageList.get(rundomIndex).getText());
+        if(size>0) {
+            int rundomIndex = (int) (Math.random() * size);
+            messagesEntity.setText(messageList.get(rundomIndex).getText());
 
-        java.sql.Date nows = new java.sql.Date( new java.util.Date().getTime() );
-        java.sql.Date tomorrow= new java.sql.Date( nows.getTime() + 24*60*60*1000);
 
-        messagesEntity.setDateCreate(tomorrow);
-        messagesEntity.setAutor_id(userId);
-        model.addObject("message", messagesEntity);
-        model.addObject("roleId", roleId);
-        model.addObject("flag",flag);
-        model = save(messagesEntity);
-//        model.setViewName("redirect:/message/");
+            java.sql.Date nows = new java.sql.Date( new java.util.Date().getTime() );
+            java.sql.Date tomorrow= new java.sql.Date( nows.getTime() + 24*60*60*1000);
+
+            messagesEntity.setDateCreate(tomorrow);
+            messagesEntity.setAutor_id(userId);
+            model.addObject("message", messagesEntity);
+            model.addObject("roleId", roleId);
+            model.addObject("flag",flag);
+            model = save(messagesEntity);
+        }
+        else {
+            model.setViewName("redirect:/message/");
+        }
         return model;
     }
 

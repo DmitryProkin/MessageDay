@@ -31,16 +31,8 @@ public class IndexController {
         this.messagesRepository = messagesRepository;
         this.messageController = messageController;
 
-//        java.sql.Date currentDate = new java.sql.Date(Calendar.getInstance().getTime().getTime());
-//        messagesList = messagesRepository.findAllByDateCreateIsLessThanEqual(currentDate);
-//        counter = messagesList.size();
-//        counter--;
-//        size = messagesList.size();
+
         init();
-//        messagesList = this.messageController.init();
-//        size =messagesList.size();
-//        counter = messagesList.size();
-//        counter--;
 
     }
     public void init(){
@@ -81,8 +73,10 @@ public class IndexController {
         }
 
         model.addObject("messageList",messagesList);
-        model.addObject("counter",counter);
-        model.addObject("size",size);
+        if(counter>=0 && size>0){
+            model.addObject("counter",counter);
+            model.addObject("size",size);
+        }
         model.addObject("userName", user.getFIO());
         model.addObject("role", user.getRole().getRole());
         model.addObject("roleId", roleId);
@@ -107,18 +101,6 @@ public class IndexController {
         ModelAndView model = new ModelAndView();
         model = constructModel();
 
-//        model = home();
-//        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-//        UserEntity user = userService.findUserByLogin(auth.getName());
-//        Integer roleId = userService.getAuthenticationUser().getRoleId();
-//        model.addObject("messageList",messagesList);
-//        model.addObject("size",size);
-//        model.addObject("counter",counter-1);
-//        model.addObject("userName", user.getFIO());
-//        model.addObject("role", user.getRole().getRole());
-//        model.addObject("roleId", roleId);
-//        model.setViewName("home/home");
-
         return model;
 
     }
@@ -132,16 +114,6 @@ public class IndexController {
         ModelAndView model = new ModelAndView();
         model = constructModel();
 
-//        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-//        UserEntity user = userService.findUserByLogin(auth.getName());
-//        Integer roleId = userService.getAuthenticationUser().getRoleId();
-//        model.addObject("messageList",messagesList);
-//        model.addObject("size",size);
-//        model.addObject("counter",counter-1);
-//        model.addObject("userName", user.getFIO());
-//        model.addObject("role", user.getRole().getRole());
-//        model.addObject("roleId", roleId);
-//        model.setViewName("home/home");
 
         return model;
 
@@ -152,8 +124,10 @@ public class IndexController {
         UserEntity user = userService.findUserByLogin(auth.getName());
         Integer roleId = userService.getAuthenticationUser().getRoleId();
         model.addObject("messageList",messagesList);
-        model.addObject("size",size);
-        model.addObject("counter",counter);
+        if(counter>=0 && size>0){
+            model.addObject("counter",counter);
+            model.addObject("size",size);
+        }
         model.addObject("userName", user.getFIO());
         model.addObject("role", user.getRole().getRole());
         model.addObject("roleId", roleId);
@@ -162,7 +136,7 @@ public class IndexController {
     }
 
 
-        @RequestMapping(value = "/error", method = RequestMethod.GET)
+    @RequestMapping(value = "/error", method = RequestMethod.GET)
     public ModelAndView error() {
         ModelAndView model = new ModelAndView();
         model.setViewName("errors/404");
