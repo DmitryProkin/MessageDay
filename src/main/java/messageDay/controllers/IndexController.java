@@ -12,9 +12,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.Calendar;
-import java.util.Timer;
-import java.util.TimerTask;
-import java.util.concurrent.TimeUnit;
+
 
 @Controller
 public class IndexController {
@@ -44,22 +42,9 @@ public class IndexController {
         model.setViewName("redirect:/home/home");
         return model;
     }
-    private void everyDayTask(){
-        Calendar today = Calendar.getInstance();
-        today.set(Calendar.HOUR_OF_DAY, 2);
-        today.set(Calendar.MINUTE, 31);
-        today.set(Calendar.SECOND, 0);
 
-// every night at 2am you run your task
-        Timer timer = new Timer();
-        timer.schedule(everyNight(),TimeUnit.MILLISECONDS.convert(1, TimeUnit.DAYS));
-//        timer.schedule( , today.getTime(), TimeUnit.MILLISECONDS.convert(1, TimeUnit.DAYS)); // period: 1 day
-    }
 
-    public TimerTask everyNight(){
-        messageController.createRundom();
-        return null;
-    }
+
 
     @RequestMapping(value = "/home/home", method = RequestMethod.GET)
     public ModelAndView home() {
@@ -67,7 +52,7 @@ public class IndexController {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         UserEntity user = userService.findUserByLogin(auth.getName());
         Integer roleId = userService.getAuthenticationUser().getRoleId();
-//        java.util.Date uDate = new java.util.Date();
+
 
         java.sql.Date currentDate = new java.sql.Date(Calendar.getInstance().getTime().getTime());
         MessagesEntity messagesEntity = messagesRepository.findAllByDateCreateEquals(currentDate);

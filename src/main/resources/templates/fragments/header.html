@@ -11,10 +11,10 @@
 
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto">
-            <li class="nav-item">
-                <a class="nav-link" th:href="@{/users}">Пользователей</a>
+            <li class="nav-item" th:if="${roleId ==1}">
+                <a class="nav-link" th:href="@{/users}">Пользователи</a>
             </li>
-            <li class="nav-item">
+            <li class="nav-item" th:if="${roleId ==1}">
                 <a class="nav-link" th:href="@{/message/}">Сообщение дня</a>
             </li>
 
